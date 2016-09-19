@@ -1,4 +1,5 @@
 # 2D-EndlessRunnerDemo
+<img src="http://raw.github.com/soapwang/2D-EndlessRunnerDemo/master/Screenshot.png" width="240" height="400" /><br/>
 A simple Android 2D endless running game demo using SurfaceView.<br/>
 Tap screen to jump over obstacles and gain score.There is a time limit, and may not be so "Endless".<br/>
 Speed of the character will increase with time.<br/>
