@@ -52,11 +52,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private CountDownTimer timer;
     private int remainTime = 60;
     private boolean finished = false;
+    private int gravityFactor = 3;
     //When it goes fast, the gap between two obstacle is increased.
     private int obstacleResetOffset = 0;
     //Avatar animation.
     private int bobX;
     private int bobY;
+    private int bobYSpeed = 0;
     private int frameWidth = 200;
     private int frameHeight = 200;
     private int frameCount = 5;
@@ -79,7 +81,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private final Handler handler = new Handler();
     private Runnable mLongPressed = new Runnable() {
         public void run() {
-            bobHighJump();
+            //bobHighJump();
             highJumped = true;
         }
     };
@@ -120,6 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             else
                 resetObstacle();
             canvas.drawBitmap(floor1, x, y, null);
+            setBobY();
             drawObstacle(canvas, paint);
             drawAvatar(canvas, paint);
             drawScore(canvas, paint);
@@ -192,6 +195,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             }
         }
     }
+    //Control Bob's jump.
+    private void setBobY() {
+        bobYSpeed += gravityFactor;
+        if(bobY < y - frameHeight) {
+            bobY += bobYSpeed;
+        } else {
+            bobY = y - frameHeight;
+            onGround = true;
+            bobYSpeed = 0;
+        }
+    }
 
     private void drawFps(Canvas c, Paint p) {
         p.setColor(Color.BLACK);
@@ -246,71 +260,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         frameToDraw.right = frameToDraw.left + frameWidth;
     }
 
-    public void bobHighJump() {
+    public void jump() {
         if(onGround) {
             onGround = false;
-            Thread t = new Thread() {
-                public void run() {
-                    int i = 0;
-                    int increment = 48;
-                    while (i < 16) {
-                        i++;
-                        try {
-                            bobY -= increment;
-                            increment -= 3;
-                            Thread.sleep(16);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    while(i >= 0) {
-                        i--;
-                        try {
-                            bobY += increment;
-                            increment += 3;
-                            Thread.sleep(16);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    onGround = true;
-                }
-            };
-            t.start();
-        }
-    }
-
-    public void bobJump() {
-        if(onGround) {
-            onGround = false;
-            Thread t = new Thread() {
-                public void run() {
-                    int i = 0;
-                    int increment = 48;
-                    while (i < 12) {
-                        i++;
-                        try {
-                            bobY -= increment;
-                            increment -= 4;
-                            Thread.sleep(16);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    while(i >= 0) {
-                        i--;
-                        try {
-                            bobY += increment;
-                            increment += 4;
-                            Thread.sleep(16);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    onGround = true;
-                }
-            };
-            t.start();
+            bobY -= 5;
+            bobYSpeed = -48;
         }
     }
 
@@ -349,6 +303,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             }
         }.start();
         score = 0;
+        displayXSpeed = -100;
+        frameLengthInMillisec = 60;
         resetObstacle();
         finished = false;
         loopThread = new LoopThread(this);
@@ -363,8 +319,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             // Player has touched the screen
             case MotionEvent.ACTION_DOWN:
                 if(playing) {
-                    highJumped = false;
-                    handler.postDelayed(mLongPressed, 150);
+                    jump();
                 }
                 else {
                     if(finished) {
@@ -380,7 +335,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             case MotionEvent.ACTION_UP:
                 handler.removeCallbacks(mLongPressed);
                 if(!highJumped)
-                    bobJump();
+                    ;
                 break;
         }
         return true;
