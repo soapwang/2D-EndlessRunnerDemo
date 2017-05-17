@@ -17,4 +17,4 @@ Gravity simulation.<br/>
 As a programming test， its layout was designed for a 1440p screen， sad:(.
 
 # Some Notes
-How control frame per seconds(fps) and display it.
+How control frame per second(fps) and display it.
