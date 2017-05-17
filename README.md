@@ -11,3 +11,7 @@ Random generated obstacles.<br/>
 Time limit.<br/>
 Character animation.<br/>
 Frame rate display.<br/>
+Gravity simulation.<br/>
+
+#Know issues:<br/>
+As a programming test， its layout was designed for a 1440p screen.
