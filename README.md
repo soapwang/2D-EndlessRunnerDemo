@@ -14,4 +14,7 @@ Frame rate display.<br/>
 Gravity simulation.<br/>
 
 #Know issues:<br/>
-As a programming test， its layout was designed for a 1440p screen.
+As a programming test， its layout was designed for a 1440p screen， sad:(.
+
+# Some Notes
+How control frame per seconds(fps) and display it.
