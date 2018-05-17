@@ -13,8 +13,6 @@ Character animation.<br/>
 Frame rate display.<br/>
 Gravity simulation.<br/>
 
-#Know issues:<br/>
-As a programming test， its layout was designed for a 1440p screen， sad:(.
+#Known issues:<br/>
+Just a programming practice. The layout was only designed for a 1440p screen， sad:(
 
-# Some Notes
-How control frame per second(fps) and display it.
